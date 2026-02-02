@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>WinGo Telangana PRO AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: radial-gradient(circle at top, #020202, #000);
+      font-family: 'Orbitron', sans-serif;
+      color: #00ff99;
+      text-align: center;
+    }
+
+    header {
+      padding: 15px;
+      font-size: 22px;
+      font-weight: 700;
+      background: #000;
+      border-bottom: 2px solid #00ff99;
+      box-shadow: 0 0 12px #00ff99;
+    }
+
+    .container {
+      padding: 18px;
+      max-width: 420px;
+      margin: auto;
+    }
+
+    .card {
+      background: #060606;
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 0 18px rgba(0,255,153,0.25);
+      margin-bottom: 18px;
+    }
+
+    .title {
+      font-size: 16px;
+      margin-bottom: 8px;
+      color: #00ffcc;
+    }
+
+    .prediction {
+      font-size: 56px;
+      font-weight: bold;
+      margin: 10px 0;
+      text-shadow: 0 0 14px #00ff99;
+    }
+
+    .mode {
+      font-size: 20px;
+      color: #ffcc00;
+      text-shadow: 0 0 8px rgba(255,204,0,0.7);
+    }
+
+    .round {
+      font-size: 13px;
+      opacity: 0.8;
+      margin-top: 4px;
+    }
+
+    .timer {
+      font-size: 15px;
+      margin-top: 8px;
+      color: #ffffff;
+    }
+
+    .btn {
+      margin-top: 12px;
+      padding: 11px 20px;
+      font-size: 13px;
+      font-weight: bold;
+      border: none;
+      border-radius: 22px;
+      background: linear-gradient(135deg, #00ff99, #00cc88);
+      color: #000;
+      cursor: pointer;
+      box-shadow: 0 0 12px rgba(0,255,153,0.6);
+      transition: 0.2s ease;
+    }
+
+    .btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 18px rgba(0,255,153,0.9);
+    }
+
+    .history {
+      max-height: 180px;
+      overflow-y: auto;
+      text-align: left;
+      font-size: 13px;
+    }
+
+    .history div {
+      padding: 6px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .tag {
+      font-weight: bold;
+    }
+
+    .telegram {
+      position: fixed;
+      bottom: 15px;
+      right: 15px;
+      background: #229ED9;
+      color: #fff;
+      padding: 12px 18px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: bold;
+      text-decoration: none;
+      box-shadow: 0 0 12px rgba(34,158,217,0.8);
+    }
+
+    .footer {
+      margin-top: 25px;
+      font-size: 11px;
+      opacity: 0.6;
+    }
+  </style>
+</head>
+<body>
+
+<header>🔥 WinGo Telangana PRO AI 🔥</header>
+
+<div class="container">
+
+  <div class="card">
+    <div class="title">🎯 Live Prediction</div>
+    <div id="prediction" class="prediction">--</div>
+    <div id="mode" class="mode">--</div>
+    <div id="round" class="round">Round: --</div>
+    <div id="timer" class="timer">Next in: --</div>
+    <button class="btn" onclick="manualPredict()">🔁 New Prediction</button>
+    <button class="btn" onclick="copyPrediction()">📋 Copy</button>
+  </div>
+
+  <div class="card">
+    <div class="title">📜 Prediction History</div>
+    <div id="history" class="history"></div>
+  </div>
+
+  <div class="card">
+    <div class="title">⚡ Telangana Strategy</div>
+    <div style="font-size:13px;opacity:0.85;line-height:1.6">
+      ➤ Bet 1x → 2x → 3x only  
+      ➤ Stop after first win ✅  
+      ➤ Avoid continuous betting ❌  
+      ➤ Use demo before real 🎯  
+    </div>
+  </div>
+
+  <div class="footer">© 2026 Telangana WinGo AI | Powered by Ganesh 🔥</div>
+</div>
+
+<a class="telegram" href="https://t.me/YOUR_CHANNEL_LINK" target="_blank">📲 Join Telegram</a>
+
+<script>
+  const numbers = [0,1,2,3,4,5,6,7,8,9];
+  let timeLeft = 30;
+
+  function randomFrom(arr) {
+    return arr[Math.floor(Math.random() * arr.length)];
+  }
+
+  function getMode(num) {
+    if (num === 0) return "🟣 Violet";
+    if (num % 2 === 0) return "🔴 Red";
+    return "🟢 Green";
+  }
+
+  function getSize(num) {
+    return num >= 5 ? "BIG" : "SMALL";
+  }
+
+  function addToHistory(num, mode, size) {
+    const history = document.getElementById("history");
+    const row = document.createElement("div");
+    row.innerHTML = `<span>${num}</span><span class="tag">${mode} | ${size}</span>`;
+    history.prepend(row);
+
+    if (history.children.length > 20) {
+      history.removeChild(history.lastChild);
+    }
+  }
+
+  function generatePrediction() {
+    const num = randomFrom(numbers);
+    const mode = getMode(num);
+    const size = getSize(num);
+
+    document.getElementById("prediction").innerText = num;
+    document.getElementById("mode").innerText = `${mode} | ${size}`;
+    document.getElementById("round").innerText = "Round: " + new Date().toLocaleTimeString();
+
+    addToHistory(num, mode, size);
+    timeLeft = 30;
+  }
+
+  function manualPredict() {
+    generatePrediction();
+  }
+
+  function copyPrediction() {
+    const text = `🔥 WinGo Prediction 🔥\nNumber: ${document.getElementById("prediction").innerText}\nMode: ${document.getElementById("mode").innerText}`;
+    navigator.clipboard.writeText(text);
+    alert("Copied ✅");
+  }
+
+  setInterval(() => {
+    if (timeLeft <= 0) {
+      generatePrediction();
+    }
+    document.getElementById("timer").innerText = "Next in: " + timeLeft + "s";
+    timeLeft--;
+  }, 1000);
+
+  generatePrediction();
+</script>
+
+</body>
+</html>
